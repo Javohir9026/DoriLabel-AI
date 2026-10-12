@@ -1,0 +1,2 @@
+/* Keep the language menu above animated hero layers and their transforms. */
+.header{isolation:isolate;z-index:9999!important;overflow:visible}.header-actions{z-index:10000!important}.language-switcher{z-index:10001}.language-menu{z-index:10002!important}.hero,.hero-grid,.hero-orb{position:relative;z-index:0}

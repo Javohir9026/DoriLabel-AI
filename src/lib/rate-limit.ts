@@ -1,0 +1,2 @@
+import { createHash } from "crypto"; const events=new Map<string,number[]>();
+export function checkRateLimit(ip:string){const key=createHash("sha256").update(ip).digest("hex"); const now=Date.now(), window=3_600_000, limit=Number(process.env.RATE_LIMIT_PER_HOUR??10); const recent=(events.get(key)??[]).filter((at)=>at>now-window); if(recent.length>=limit)return {ok:false,retryAfter:Math.ceil((recent[0]+window-now)/1000)}; recent.push(now); events.set(key,recent); return {ok:true,retryAfter:0};}

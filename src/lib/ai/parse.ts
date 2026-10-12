@@ -1,0 +1,4 @@
+import { z } from "zod";
+export function extractJson(input:string){const fenced=input.match(/```(?:json)?\s*([\s\S]*?)```/i); const candidate=(fenced?.[1]??input).trim(); const start=candidate.indexOf("{"); const end=candidate.lastIndexOf("}"); if(start<0||end<start)throw new Error("Invalid JSON"); return JSON.parse(candidate.slice(start,end+1)) as unknown;}
+export async function parseWithRetry<T>(raw:string,schema:z.ZodType<T>,retry:(message:string)=>Promise<string>){const first=schema.safeParse(safely(raw)); if(first.success)return first.data; const next=await retry(first.error.message); const second=schema.safeParse(safely(next)); if(second.success)return second.data; throw new Error("AI_INVALID_OUTPUT");}
+function safely(raw:string):unknown { try{return extractJson(raw);}catch{return undefined;} }

@@ -1,0 +1,7 @@
+import { z } from "zod"; import { sourceSchema } from "./common";
+export const urgencySchema=z.enum(["self_care","see_doctor_soon","urgent","emergency"]);
+export const conditionInputSchema=z.object({description:z.string().min(10).max(1500),ageGroup:z.enum(["child","adult","senior","unknown"]),sex:z.enum(["female","male","unknown"]),pregnantOrNursing:z.enum(["yes","no","unknown"]),chronicOrAllergies:z.string().max(300).optional(),duration:z.string().max(100).optional(),locale:z.enum(["uz","ru","tg","en"]).default("uz")});
+export const conditionAnalysisSchema=z.object({urgency:urgencySchema,summary:z.string(),possibleCauses:z.array(z.string()),selfCare:z.array(z.string()),otcOptions:z.array(z.object({activeIngredient:z.string(),exampleBrands:z.array(z.string()),purpose:z.string(),howToTake:z.string(),cautions:z.array(z.string()),sources:z.array(sourceSchema)})),redFlags:z.array(z.string()),seeDoctorIf:z.array(z.string()),emergencyMessage:z.string().nullable(),sources:z.array(sourceSchema),disclaimer:z.string()}); export type ConditionAnalysis=z.infer<typeof conditionAnalysisSchema>;
+export const otcOptionSchema=z.object({activeIngredient:z.string(),exampleBrands:z.array(z.string()),purpose:z.string(),howToTake:z.string(),cautions:z.array(z.string()),sources:z.array(sourceSchema)});
+export const similarOptionsInputSchema=z.object({summary:z.string().min(10).max(1500),locale:z.enum(["uz","ru","tg","en"])});
+export const similarOptionsSchema=z.object({otcOptions:z.array(otcOptionSchema).min(3).max(3)});

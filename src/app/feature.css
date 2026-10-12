@@ -1,0 +1,1 @@
+.feature{display:grid;gap:8px;align-content:start}.feature svg{margin-bottom:2px}.feature>b{display:inline-grid;place-items:center;width:max-content;min-width:30px;height:30px;padding:0 8px;border-radius:9px;background:var(--surface-soft);color:var(--brand);font-size:14px;line-height:1}.feature>span{display:block}
